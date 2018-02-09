@@ -6,7 +6,7 @@ describe('Drones.js - Drone management and utility module', function () {
   describe('Drones Constructor', function () {
     it('initializes correctly with no options', function () {
       let drones = new Drones()
-      expect(drones.all).to.deep.equal([])
+      expect(drones.allConnected).to.deep.equal([])
       expect(drones.options).to.deep.equal({})
     })
     it('initializes correctly with options', function () {
@@ -14,7 +14,7 @@ describe('Drones.js - Drone management and utility module', function () {
         port: 3000,
         parameter: 'param'
       })
-      expect(drones.all).to.deep.equal([])
+      expect(drones.allConnected).to.deep.equal([])
       expect(drones.options).to.deep.equal({
         port: 3000,
         parameter: 'param'
@@ -24,19 +24,8 @@ describe('Drones.js - Drone management and utility module', function () {
   describe('Drones.all', function () {
     it('returns no drone objects', function () {
       let drones = new Drones()
-      let all = drones.all
-      expect(all).to.deep.equal([])
-    })
-    it('returns the correct amount of drone objects', function () {
-      let drones = new Drones()
-
-      drones.add(1)
-      let all = drones.all
-      expect(all).to.have.lengthOf(1)
-
-      drones.add(2)
-      all = drones.all
-      expect(all).to.have.lengthOf(2)
+      let allConnected = drones.allConnected
+      expect(allConnected).to.deep.equal([])
     })
   })
 })
