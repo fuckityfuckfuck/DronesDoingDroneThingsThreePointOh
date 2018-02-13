@@ -70,7 +70,6 @@ class Drones {
     let ip = this.ipTemplate(id) // e.g. 192.168.1.101
     if (this.containsId(id)) {
       drone = this.getDrone(id)
-      drone.resume()
     } else {
       drone = arModule.createClient({ip: ip})
       this.droneList.push(drone)
@@ -90,7 +89,6 @@ class Drones {
     if (this.options.log) console.log(`Drone ${drone.id} connected`)
     drone.connected = true
     drone.animateLeds('blinkOrange', 5, 1) // This animation lets us know the drone has connected
-    drone.resume()
   }
 
   /**
