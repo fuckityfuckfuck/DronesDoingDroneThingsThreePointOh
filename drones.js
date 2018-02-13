@@ -39,7 +39,6 @@ class Drones {
          the drone is newly timed out */
       if (timedOut && drone.connected && this.options.log) console.log(`Drone ${drone.id} disconnected`)
       drone.connected = !timedOut
-      if (timedOut) drone.removeAllListeners('navdata')
     })
   }
 
@@ -67,16 +66,18 @@ class Drones {
    * @todo Test this function
    */
   add (id) {
-    if (this.containsId(id)) return this.getDrone(id)
-    let ip = this.ipTemplate(id)
-    let drone = arModule.createClient({
-      ip  // e.g. 192.168.1.101
-    })
-    this.droneList.push(drone)
+    let drone
+    let ip = this.ipTemplate(id) // e.g. 192.168.1.101
+    if (this.containsId(id)) {
+      drone = this.getDrone(id)
+      drone.resume()
+    } else {
+      drone = arModule.createClient({ip: ip})
+      this.droneList.push(drone)
+    }
     drone.id = id
     drone.ip = ip
     drone.connected = false
-    drone.resume() // Let's hope this fixes an issue with drones not responding on second connect
     drone.on('navdata', data => {
       if (data.demo) drone.navdata = data
       drone.latestConnection = Date.now()
