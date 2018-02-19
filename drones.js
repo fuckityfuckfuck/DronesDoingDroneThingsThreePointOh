@@ -112,29 +112,27 @@ class Drones {
 
   /**
    * Removes a drone from the list of drones.
-   * @todo Write the documentation.
-   * @todo Test this function.
+   * @param {int} id - Id of drone to remove.
    */
   remove (id) {
     if (!this.containsId(id)) return false
     delete this.getDrone(id)
+    return true
   }
 
   /**
+   * Checks if a drone with a particular id exists.
    * @param {int} id - Id of drone to search for.
    * @returns {boolean} Weather a drone with id exists.
-   * @todo Write the documentation.
-   * @todo Test this function.
    */
   containsId (id) {
     return this.droneList.some(drone => drone.id === id)
   }
 
   /**
+   * Gets the drone with the given id, if it exists.
    * @param {int} id - Id of drone to return.
    * @returns {Drone}
-   * @todo Write the documentation.
-   * @todo Test this function.
    */
   getDrone (id) {
     return this
@@ -143,26 +141,27 @@ class Drones {
   }
 
   /**
-   * @todo Write the documentation.
-   * @todo Test this function.
+   * Returns the ip to be used for a drone of a given id.
+   * @param {int} id - The id to use to from the ip address.
+   * @returns {string} The ip address.
    */
   ipTemplate (id) {
     return `${config.network.droneIpStub}${id}`
   }
 
   /**
-   * Evaluate to a list of all drone statuses
+   * Evaluate to a list of all drone statuses.
    * @todo Write the documentation.
-   * @todo Test this function.
+   * @todo Set up tests on this functions interaction with live drones.
    */
   get statuses () {
     return this.allConnected.map(drone => this.status(drone))
   }
 
   /**
-   * Return the status of drone with given id
+   * Return the status of a given drone.
    * @todo Write the documentation.
-   * @todo Test this function.
+   * @todo Set up tests on this functions interaction with live drones.
    */
   status (drone) {
     return drone

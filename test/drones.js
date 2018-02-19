@@ -52,10 +52,60 @@ describe('Drones.js - Drone management and utility module', function () {
     })
     it('returns pre-existing drone if there is one', function () {
       const drones = new Drones()
-      const id = 42
+      const id = 2
       const preExistingDrone =
         drones.all.find(drone => drone.id === id) | drones.add(id)
       expect(preExistingDrone === drones.add(id))
+    })
+  })
+  describe('Drones.remove', function () {
+    it('removes a drone and returns true if it is there', function () {
+      const drones = new Drones()
+      const idToRemove = 27
+      drones.add(idToRemove)
+      expect(drones.containsId(idToRemove))
+      expect(drones.remove(idToRemove))
+      expect(!drones.containsId(idToRemove))
+    })
+    it('returns false if the drone does not exist', function () {
+      const drones = new Drones()
+      const idToRemove = 83
+      drones.remove(idToRemove)
+      expect(!drones.remove(idToRemove))
+    })
+  })
+  describe('Drones.containsId', function () {
+    it('returns true if the drone exists', function () {
+      const drones = new Drones()
+      const idToCheck = 19
+      drones.add(idToCheck)
+      expect(drones.containsId(idToCheck))
+    })
+    it('returns false if the drone does not exist', function () {
+      const drones = new Drones()
+      const idToCheck = 28
+      drones.remove(idToCheck)
+      expect(!drones.containsId(idToCheck))
+    })
+  })
+  describe('Drones.getDrone', function () {
+    it('returns the correct drone object if it exists', function () {
+      const drones = new Drones()
+      const idToCheck = 512
+      const drone = drones.add(idToCheck)
+      expect(drone === drones.getDrone(idToCheck))
+    })
+    it('returns undefined if there is no drone with the given id', function () {
+      const drones = new Drones()
+      const idToCheck = 965
+      drones.remove(idToCheck)
+      expect(typeof drones.getDrone(idToCheck) === 'undefined')
+    })
+  })
+  describe('Drones.ipTemplate', function () {
+    it('works for example', function () {
+      const id = 11
+      expect((new Drones()).ipTemplate(id) === config.network.droneIpStub + id)
     })
   })
 })
