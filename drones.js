@@ -65,7 +65,7 @@ class Drones {
   /**
    * Returns an array of all drone objects that are confirmed to be active.
    * @returns {Drone[]} Array containing all confirmed drone objects.
-   * @todo Test this function
+   * @todo Set up tests on this functions interaction with live drones.
    */
   get allConnected () {
     return this.all.filter(drone => drone.connected)
@@ -75,7 +75,6 @@ class Drones {
    * Adds a new drone object to the list with the given id.
    * @param {int} id - Id of drone to create.
    * @returns {Drone} Newly created client object from ar-drone module or pre-existing object with same id.
-   * @todo Test this function
    */
   add (id) {
     let drone
@@ -97,6 +96,11 @@ class Drones {
     return drone
   }
 
+  /**
+   * Sets up a drones connection.
+   * @param {Drone} drone - The drone object for which to set up the connection.
+   * @todo Set up tests on this functions interaction with live drones.
+   */
   connectDrone (drone) {
     if (this.options.log) console.log(`Drone ${drone.id} connected`)
     // This will get the drone to send demo data again, which it may have
@@ -107,6 +111,7 @@ class Drones {
   }
 
   /**
+   * Removes a drone from the list of drones.
    * @todo Write the documentation.
    * @todo Test this function.
    */
