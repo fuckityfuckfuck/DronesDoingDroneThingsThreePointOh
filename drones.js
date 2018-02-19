@@ -37,7 +37,19 @@ class Drones {
       let timedOut = currentTime - drone.latestConnection > threshold
       /* Only log if timeout is true drone.connected is true, this means that
          the drone is newly timed out */
-      if (timedOut && drone.connected && this.options.log) console.log(`Drone ${drone.id} disconnected`)
+      if (timedOut && drone.connected && this.options.log) {
+        console.log(`Drone ${drone.id} disconnected`)
+        /**
+         * By default only navdata that is newer than the most recent recieved
+         * navdata is sent on to the drone object, however, if a drone restarts,
+         * it seems that it resets its 'sequenceNumber' count of the navdata
+         * sent sofar, and so until it catches up to where it was before, the
+         * arDrone module will ignore any navdata it sends. To avoid this, we
+         * can reset the arDrone module's count as well. See
+         * github.com/ennuuos/DronesDoingDroneThingsThreePointOh/issues/9
+         */
+        drone._udpNavdatasStream._sequenceNumber = 0
+      }
       drone.connected = !timedOut
     })
   }
@@ -87,6 +99,9 @@ class Drones {
 
   connectDrone (drone) {
     if (this.options.log) console.log(`Drone ${drone.id} connected`)
+    // This will get the drone to send demo data again, which it may have
+    // stopped doing if this is a reconnection:
+    drone.resume()
     drone.connected = true
     drone.animateLeds('blinkOrange', 5, 1) // This animation lets us know the drone has connected
   }
