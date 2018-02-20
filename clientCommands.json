@@ -1,0 +1,54 @@
+[
+  {
+    "commandName": "counterClockwise",
+    "hasDegree": true
+  },
+  {
+    "commandName": "front",
+    "hasDegree": true
+  },
+  {
+    "commandName": "clockwise",
+    "hasDegree": true
+  },
+  {
+    "commandName": "left",
+    "hasDegree": true
+  },
+  {
+    "commandName": "stop",
+    "hasDegree": false
+  },
+  {
+    "commandName": "right",
+    "hasDegree": true
+  },
+  {
+    "commandName": "takeoff",
+    "hasDegree": false
+  },
+  {
+    "commandName": "back",
+    "hasDegree": true
+  },
+  {
+    "commandName": "land",
+    "hasDegree": false
+  },
+  {
+    "commandName": "up",
+    "hasDegree": true
+  },
+  {
+    "commandName": "down",
+    "hasDegree": true
+  },
+  {
+    "commandName": "flash",
+    "hasDegree": false
+  },
+  {
+    "commandName": "disableEmergency",
+    "hasDegree": false
+  }
+]

@@ -14,4 +14,6 @@ server.listen(config.network.port, () => {
   console.log(`[${requestAddress}] ${req.method} ${req.url}`)
 })
 
+server.use(express.json())
+
 module.exports = server

@@ -4,5 +4,6 @@
         "droneIpStub" : "192.168.1.",
         "port" : 3000,
         "droneIdList" : [101, 102, 103, 104]
-    }
+    },
+    "defaultDegree": 0.2
 }

@@ -1,5 +1,6 @@
 const arModule = require('ar-drone')
 const config = require('./config.json')
+const clientCommands = require('./clientCommands.json')
 
 /**
  * Represents all drones and functions relevant to drones
@@ -88,6 +89,7 @@ class Drones {
     drone.id = id
     drone.ip = ip
     drone.connected = false
+    drone.flash = function () { this.animateLeds('blinkOrange', 5, 1) }
     drone.on('navdata', data => {
       if (data.demo) drone.navdata = data
       drone.latestConnection = Date.now()
@@ -107,7 +109,7 @@ class Drones {
     // stopped doing if this is a reconnection:
     drone.resume()
     drone.connected = true
-    drone.animateLeds('blinkOrange', 5, 1) // This animation lets us know the drone has connected
+    drone.flash() // This animation lets us know the drone has connected
   }
 
   /**
@@ -195,6 +197,20 @@ class Drones {
       }
     })
     server.post('/drones/command', (req, res) => {
+      // Accepts a json list of {id, commandName, (maybe) degree} objects.
+      // First ensure they are commanding an existing drone, then that the
+      // command is valid, and then call the relevant function.
+      req.body.filter(command => this.containsId(command.id)).filter(
+        command => clientCommands
+          .map(clientCommand => clientCommand.commandName)
+          .includes(command.commandName)
+      ).forEach(command => {
+        if (clientCommands.find(
+          clientCommand => clientCommand.commandName === command.commandName
+        ).hasDegree) {
+          this.getDrone(command.id)(command.degree | config.defaultDegree)
+        } else { this.getDrone(command.id)() }
+      })
       res.sendStatus(200)
     })
     server.post('/drones/:id', (req, res) => {
